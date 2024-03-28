@@ -60,6 +60,7 @@ public class TaskController {
         taskRequest.setStatus(status);
         taskRequest.setIp(attackParam[0]);
         taskRequest.setPort(attackParam[1]);
+        taskRequest.setProtocol(attackParam[2]);
 
         return taskService.createScanTask(taskRequest);
     }

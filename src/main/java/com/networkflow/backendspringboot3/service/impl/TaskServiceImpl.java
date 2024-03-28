@@ -205,7 +205,62 @@ class DetectTask {
 //                    processBuilder = new ProcessBuilder("/usr/bin/sh",
 //                            System.getProperty("user.dir") + System.getProperty("file.separator")
 //                                    + "core" + System.getProperty("file.separator") + "scan/scan.sh");
-                    processBuilder = new ProcessBuilder("/usr/bin/nmap",currentTask.getIp(),"-p",currentTask.getPort(),currentTask.getAttackMode());
+                    // processBuilder = new ProcessBuilder("/usr/bin/nmap",currentTask.getIp(),"-p",currentTask.getPort(),currentTask.getAttackMode());
+                    String attackMode = currentTask.getProtocol();
+                    String port = currentTask.getPort();
+                    boolean b = port != null && !port.isEmpty() && !"0".equals(port);
+                    if ("Ping scan".equals(attackMode)) {
+                        // 当攻击模式为 UDP 时，设置相应的参数
+                        if (b) {
+                            processBuilder = new ProcessBuilder(
+                                    "/usr/bin/nmap",
+                                    currentTask.getIp(),
+                                    "-sP",  // UDP 扫描
+                                    "-p",
+                                    port
+                            );
+                        } else {
+                            processBuilder = new ProcessBuilder(
+                                    "/usr/bin/nmap",
+                                    currentTask.getIp(),
+                                    "-sP"  // UDP 扫描
+                            );
+                        }
+                    } else if ("TCP Connect scan".equals(attackMode)) {
+                        // 当攻击模式为 TCP 时，设置相应的参数
+                        if (b) {
+                            processBuilder = new ProcessBuilder(
+                                    "/usr/bin/nmap",
+                                    currentTask.getIp(),
+                                    "-sT",  // TCP SYN 扫描
+                                    "-p",
+                                    port
+                            );
+                        } else {
+                            processBuilder = new ProcessBuilder(
+                                    "/usr/bin/nmap",
+                                    currentTask.getIp(),
+                                    "-sT"  // TCP SYN 扫描
+                            );
+                        }
+                    } else if ("Version scan".equals(attackMode)){
+                        // 其他情况，设置默认的参数
+                        if (b) {
+                            processBuilder = new ProcessBuilder(
+                                    "/usr/bin/nmap",
+                                    currentTask.getIp(),
+                                    "-p",
+                                    port,
+                                    "-sV"
+                            );
+                        } else {
+                            processBuilder = new ProcessBuilder(
+                                    "/usr/bin/nmap",
+                                    currentTask.getIp(),
+                                    "-sV"
+                            );
+                        }
+                    }
                     break;
                 case 2:
                     // TODO 路由攻击脚本

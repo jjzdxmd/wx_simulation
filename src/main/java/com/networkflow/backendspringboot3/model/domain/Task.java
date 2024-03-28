@@ -22,13 +22,13 @@ public class Task {
     private Integer mode;
     // status：0 未启动；1 待开始；2 待执行；3 已完成。
     private Integer status;
-
+    private String protocol;
     // ip: 攻击IP
     private String ip;
     // port: 攻击端口
     private String port;
     // attackMode: 攻击模式
-    private String attackMode;
+//    private String attackMode;
     // duration: 攻击时长
     private String duration;
     // progress: 进度

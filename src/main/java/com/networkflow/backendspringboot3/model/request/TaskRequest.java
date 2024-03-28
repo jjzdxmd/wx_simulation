@@ -22,4 +22,6 @@ public class TaskRequest {
     private String port;
     // 攻击时长
     private String duration;
+    // 攻击类型
+    private String protocol;
 }
